@@ -33,7 +33,18 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		defer newFile.Close()
 
+		//io.Copy 是将内存中的文件流拷贝到要存储下来的文件的writer
 		_, err = io.Copy(newFile, file)
+		if err != nil {
+			fmt.Printf("Failed to save data into file,err:%s\n", err.Error())
+			return
+		}
 
+		http.Redirect(w, r, "/file/upload/suc", http.StatusFound)
 	}
+}
+
+//UploadSucHandler : 上传已完成
+func UploadSucHandler(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "Upload finished!")
 }
