@@ -59,7 +59,11 @@ func GetLastFileMetas(limitCnt int) []FileMeta {
 	}
 
 	sort.Sort(ByUploadTime(fMetaArray))
-	return fMetaArray[0:limitCnt]
+	if len(fMetaArray) >= limitCnt {
+		return fMetaArray[0:limitCnt]
+	} else {
+		return fMetaArray
+	}
 }
 
 //RemoveFileMeta:删除元信息，这边简单删除，多线程需保证安全
